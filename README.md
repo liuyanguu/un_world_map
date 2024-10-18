@@ -9,7 +9,7 @@ The source shape files were from 2012 and has been used until now.
 -   shp: raw shape files
 -   data: processed shape files loaded as rds
 -   R: R functions to load the data
--   code: script to produce the map used in UNIGME report: use "code/_world map of mortality rates.R"
+-   code: script to produce the map used in UNIGME report: use "_world map of mortality rates.R"
 
 
 # Example

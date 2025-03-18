@@ -7,9 +7,14 @@ library("RColorBrewer")
 library("data.table")
 
 # working directory should be the project folder
-work.dir <- getwd()
+USERPROFILE <- Sys.getenv("USERPROFILE")
+
+work.dir <- file.path(USERPROFILE, "Dropbox/UNICEF Work/unmap/un_world_map")
 map.rds.dir <- file.path(work.dir, "rds") # location of the shapefiles
 output.dir.fig <- file.path(work.dir, "fig") # location to save the map
+
+# Source main function
+source(file.path(work.dir, "R/make.world.map.R"))
 
 colors_ind <- c(
   "U5MR"    = "Blues",
@@ -65,13 +70,16 @@ rks <- st_as_sf(rks)
 cst <- st_as_sf(cst)
 
 # Read in the data ----------------------------------------------------------
-dtc <- fread(file.path(work.dir, "input/IGME_2023_rate_estimates.csv"))
+# results_country_dir <- file.path(USERPROFILE, "Dropbox/UNICEF Work/Data and charts for websites/Files 2024/CME/Estimates/")
+# dtcCME <- fread(file.path(results_country_dir, "UNIGME2024_Country_Rates.csv"))
+# dtc <- dtcCME[Year == 2023.5 & Sex== "Total"]
+# fwrite(dtc, file.path(work.dir, "input/IGME_2024_rate_estimates.csv"))
+
+dtc <- fread(file.path(work.dir, "input/IGME_2024_rate_estimates.csv"))
 dc <- setDT(readRDS(file.path(work.dir, "input/new_cnames.rds")))
 dtc <- merge(dc[,.(ISO3Code, UNCode)], dtc, by.x = "ISO3Code", by.y = "ISO.Code")
 
-# Source main function
-source(file.path(work.dir, "R/make.world.map.R"))
-
+# plot map -----------------------------------------------------------------
 make.world.map(ind0 = "U5MR")
 make.world.map(ind0 = "MR1t59")
 # invisible(lapply(inds, make.world.map))

@@ -78,6 +78,16 @@ lks <- spTransform(lks.un, CRS("+proj=robin"))
 saveRDS(lks, file.path(map.rds.dir, "sp.lks.rds"))
 
 
+# Antartica is not needed, but put it there for completeness
+
+# wld.un <- readOGR(dsn = "C:/Users/lyhel/Dropbox/UNICEF Work/unmap", layer = "un-world-2012-65pct")
+# ant.un <- wld.un[wld.un$TERR_NAME=="Antarctica",]
+# # convert to Robinson projection 
+# proj4string(ant.un) <- CRS("+proj=longlat +ellps=WGS84")
+# ant <- spTransform(ant.un, CRS("+proj=robin"))
+# saveRDS(ant, file.path(map.rds.dir, "sp.ant.rds"))
+
+
 # RKS shapefiles
 sp.rks <- rgdal::readOGR(file.path(map.shp.dir, "RKS/kosovo_administrative_boundaries_national_polygon.shp"))
 # proj4string(sp.rks) <- CRS("+proj=longlat +ellps=WGS84") # (requires sp package)

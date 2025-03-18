@@ -4,17 +4,21 @@
 make.world.map <- function(
     world.robin = world.robin.sf, 
     ind0, 
+    color_palette = NULL, # lighest hues first, self supply palette, overwrite the default match 
+    use_qualitative_palette = FALSE, # use qualitative palette
     dir.save = output.dir.fig,
     map_num = NULL
     ){
   
+  qualitative_palette <- c("#0058AB", "#1CABE2", "#00833D", "#80BD41", "#6A1E74" ,"#961A49", "#E2231A" ,"#F26A21", "#FFC20E", "#FFF09C")
+  
   stopifnot(ind0 %in% names(colors_ind))
   legend.title <- inds_rate_label_unit[[ind0]]
-  color.palette <- dplyr::recode(ind0, !!!colors_ind)
+  color.palette <- dplyr::recode(ind0, !!!colors_ind) # sequential color palette is the default 
   # map legend breaks
   category.breaks <- switch (ind0,
                              
-                             "SBR"     = c(35, 30, 25, 12, 5),
+                             "SBR"     = c(30, 25, 20, 12, 5),
                              "NMR"     = c(35, 30, 25, 12, 5),
                              "MR1t59"  = c(45, 30, 20, 13, 5),
                              "MR1t11"  = c(45, 35, 25, 15, 5),
@@ -23,10 +27,13 @@ make.world.map <- function(
                              "5q5"     = c(15, 10, 7.5, 5, 2.5),
                              "5q10"    = c(15, 10, 7.5, 5, 2.5),
                              "5q15"    = c(15, 10, 7.5, 5, 2.5),
-                             "10q10"   = c(20, 15, 10, 5, 2.5)
+                             "10q10"   = c(20, 15, 10, 5, 2.5),
+                             "SBPD"    = c(50, 25, 0) # stillbirth percentage decline 
   )
   # Number of categories into which to split data, not including No data
+  # e.g. for U5MR: 6 categories: <=10, 10-25, 25-50, 50-75, 75-100, >100
   NumOfCategories <- length(category.breaks) + 1
+  message("Number of categories: ", NumOfCategories)
   
   l1 <- category.breaks
   l2 <- shift(l1, 1)
@@ -54,19 +61,31 @@ make.world.map <- function(
   
   colors <- brewer.pal(NumOfCategories, color.palette) # (requires RColorBrewer package)
   colors <- colors[1:length(colors)] # eliminate the lightest hue as it tends not to map well (looks white in many palettes)
-  colors <- rev(colors) # put the darkest hues first
+  # still, the lightest hues first
   
-  # Assign color codes based on category breaks
+  # overwrite 
+  if(!is.null(color_palette)) colors <- color_palette
+  if(use_qualitative_palette) colors <- qualitative_palette
+  
+  
+  # Ensure we have the correct number of colors
+  colors <- colors[1:(length(category.breaks) + 1)]
+  
+  sorted_breaks <- sort(category.breaks)
+  # Assign color codes based on category breaks dynamically
   world.robin <- world.robin %>%
     mutate(colorcode = case_when(
-      vartomap >= category.breaks[1] ~ colors[1],
-      vartomap >= category.breaks[2] ~ colors[2],
-      vartomap >= category.breaks[3] ~ colors[3],
-      vartomap >= category.breaks[4] ~ colors[4],
-      vartomap >= category.breaks[5] ~ colors[5],
-      vartomap < category.breaks[5] ~ colors[6],
-      is.na(vartomap) ~ NoDataColor
+      is.na(vartomap) ~ NoDataColor,  # Handle missing values first
+      TRUE ~ colors[findInterval(vartomap, vec = sorted_breaks, rightmost.closed = TRUE) + 1]
     ))
+  table(world.robin$colorcode)
+  
+  # colors <- c( "#F26A21", "#FFF09C", "#1CABE2", "#00833D")
+  
+  #00833D  #1CABE2  #F26A21  #FFF09C darkgray 
+  # 30      143        4       55       51 
+  
+
   world.robin$colorcode[which(world.robin$TERR_NAME=="Greenland")] <- world.robin$colorcode[which(world.robin$TERR_NAME=="Denmark")] #Greenland should have same colorcode as Denmark
   world.robin$colorcode[which(world.robin$TERR_NAME=="Hong Kong")] <- world.robin$colorcode[which(world.robin$TERR_NAME=="China")] 
   world.robin$colorcode[which(world.robin$TERR_NAME=="Macro")]     <- world.robin$colorcode[which(world.robin$TERR_NAME=="China")] 
@@ -117,8 +136,8 @@ make.world.map <- function(
     if (plot.coastlines) {
       plot(st_geometry(cst), add = TRUE, col = coastline.color, lwd = 0.2, lty = 1)
     }
-    
-    legend(-16820000, -1000000, col=c(colors, NoDataColor), pt.bg = c(colors, NoDataColor), pch = 15, pt.cex = 2, cex = 0.7, 
+    colors_legend_order <- c(rev(colors), NoDataColor)
+    legend(-16820000, -1000000, col= colors_legend_order, pt.bg = colors_legend_order, pch = 15, pt.cex = 2, cex = 0.7, 
            legend = legend.labels, title = legend.title, box.lty = 0, box.col = "white", bty = 'o', bg = 'white')
   }
   

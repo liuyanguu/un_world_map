@@ -1,20 +1,38 @@
-# This code creates a world map with country/area polygons colored according to the value of a continuous variable
-# (e.g., Proportion Urban, TFR, life expectancy at birth...)
-# 
-# The shape files that contain the country polygons and boundaries have been provided by the UN Cartography unit
-# and are stored in V:\unmap\2012SHP1M
+# ==============================================================================
+# ⚠️  LEGACY SCRIPT - DEPRECATED ⚠️
+# ==============================================================================
 #
-# Requires a csv file with three fields in this order: 1) Country/Area name, 2) LocID, 3) Continuous Variable to be mapped
+# ⚠️  THIS SCRIPT IS OUTDATED AND NO LONGER MAINTAINED
 #
-# Outputs three graphics files, each containing the same map:
-#   1. MapName.pdf This is a large vector PDF that graphic designers can work with in their software. Use this for GDU publications (e.g. Highlights, wall charts).
-#   2. MapName_LowResForWeb This is a low resolution PNG file that can be used for web-based displays (advisable to link to high resolution pdf)
-#   3. MapName_HighResForWord This is a higher resolution PNG file that can be imported as an image to Word for reports and Population Facts (also PPT presentations)
+# Original Purpose:
+#   Created world maps with country polygons colored by continuous variables
+#   (e.g., Proportion Urban, TFR, life expectancy at birth)
 #
-# Sara Hertog
-# 29 September 2014
-# modified 25 June 2015 to allow user to specify disclaimer text at bottom (helps us to keep up with what
-# seem to be constantly changing requirements from UN Cartography)
+# DEPRECATION NOTICE:
+#   This script uses outdated packages and methods that are no longer supported:
+#   - Uses 'sp' package (superseded by 'sf')
+#   - Uses base R plotting (replaced with ggplot2)
+#   - Uses 'rgdal' package (RETIRED as of Oct 2023)
+#
+# MIGRATION GUIDANCE:
+#   ✅ Use instead: _Maps_of_mortality_rates_by_region.R
+#   
+#   New script provides:
+#   - Modern 'sf' package for spatial data
+#   - ggplot2 for better visualization
+#   - Improved UN cartography compliance
+#   - Better performance and maintainability
+#   - Enhanced documentation
+#
+# Original Author: Sara Hertog
+# Original Date: 29 September 2014
+# Last Modified: 25 June 2015
+# Deprecated: 2024
+#
+# Historical Note:
+#   Shapefiles were originally stored in V:\unmap\2012SHP1M
+#   Output formats were PDF (vector), PNG low-res (web), PNG high-res (Word/PPT)
+# ==============================================================================
 
 # Loading required packages - run this if you do not already have the packages installed
 #install.packages(c("sp","RColorBrewer","ggplot2","rgdal","scales", "classInt"),dependencies=TRUE)

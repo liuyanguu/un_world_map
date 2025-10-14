@@ -1,27 +1,62 @@
-# Map for any mortality rates listed below
-# Data is pulled from "UNIGME202X_Country_Rates_&_Deaths.csv"
-# can plot all countries or selected countries (regions)
+# ==============================================================================
+# World Maps for Child Mortality Indicators by Region
+# ==============================================================================
+#
+# Purpose: 
+#   Creates choropleth maps for child mortality indicators (U5MR, NMR, CMR, etc.)
+#   using UN cartography standards. Can generate world maps or regional maps with
+#   proper color coding based on indicator values.
+#
+# Author: UNICEF IGME Team
+# Created: 2024.08
+# Last Modified: 2024.08
+#
+# Dependencies:
+#   - sf: for spatial data handling (replaces sp)
+#   - ggplot2: for map visualization (replaces base plot)
+#   - ggpattern: for pattern fills (Aksai Chin region)
+#   - RColorBrewer: for color palettes
+#   - dplyr: for data manipulation
+#   - data.table: for efficient data operations
+#
+# Input Data:
+#   - UNIGME202X_Country_Rates_&_Deaths.csv (mortality estimates)
+#   - UN cartography shapefiles (Robinson projection)
+#   - Country metadata with ISO codes and regions
+#
+# Output:
+#   - PNG/PDF maps with proper legend and UN cartography standards
+#   - Can plot individual countries, regions, or world maps
+#
+# Known Issues:
+#   - Aksai Chin region plotting with geom_sf_pattern needs refinement
+#   - Some small island territories may not display optimally
+#
+# Usage:
+#   1. Set indicator (ind0) and region/countries (iso.subset.c)
+#   2. Run make.world.map() function with desired parameters
+#   3. Maps are saved to fig/ directory automatically
+# ==============================================================================
 
-# use `ggplot2` instead of base plot, `sf` instead of `sp`
-# still has some issues with plotting Askai Chin using `geom_sf_pattern`
 
-# 2023.08
-
-
+# Color palette mapping for each mortality indicator
+# Uses ColorBrewer palettes that are colorblind-friendly and print well
 colors_ind <- c(
-  "U5MR"    = "Blues",
-  "SBR"     = "Blues",
-  "NMR"     = "Greens",
-  "MR1t59"     = "OrRd",
-  "MR1t11"  = "OrRd", 
-  "CMR"     = "OrRd",  
-  "10q10"   = "OrRd",
-  "5q5"     = "Greens",
-  "5q5"     = "Greens",
-  "5q10"    = "Greens",  
-  "5q15"    = "PuBu"
+  "U5MR"    = "Blues",    # Under-five mortality rate
+  "SBR"     = "Blues",    # Stillbirth rate  
+  "NMR"     = "Greens",   # Neonatal mortality rate
+  "MR1t59"  = "OrRd",     # 1-59 months mortality rate
+  "MR1t11"  = "OrRd",     # 1-11 months mortality rate
+  "CMR"     = "OrRd",     # Child mortality rate (1-4 years)
+  "10q10"   = "OrRd",     # Adolescent mortality rate (10-19 years)
+  "5q5"     = "Greens",   # Child mortality rate (5-9 years)
+  "5q5"     = "Greens",   # Duplicate entry - should be reviewed
+  "5q10"    = "Greens",   # Child mortality rate (10-14 years)
+  "5q15"    = "PuBu"      # Adolescent mortality rate (15-19 years)
 )
 
+# Human-readable labels and units for each mortality indicator
+# Used in map legends and titles
 inds_rate_label_unit  <- c("U5MR"   = "Under-five mortality rate\n(deaths per 1,000 live births)",  
                            "NMR"    = "Neonatal mortality rate\n(deaths per 1,000 live births)",
                            "CMR"    = "Child mortality rate age 1–4\n(deaths per 1,000 children aged 1)",
@@ -79,14 +114,14 @@ cst <- st_as_sf(cst)
 # Read in the data ----------------------------------------------------------
 
 # load estimates
-dir_CME_est <- file.path(USERPROFILE, "Dropbox/UNICEF Work/Data and charts for websites/Files 2023/CME/Estimates/")
-dtc <- fread(file.path(dir_CME_est, "UNIGME2023_Country_Rates_&_Deaths.csv"))
+dir_CME_est <- file.path(USERPROFILE, "Dropbox/UNICEF Work/Data and charts for websites/Files 2024/CME/Estimates/")
+dtc <- fread(file.path(dir_CME_est, "UNIGME2024_Country_Rates_&_Deaths.csv"))
 dtc <- dtc[Year==2021.5 & Sex=="Total"]
 dtc <- dtc[Shortind %in% inds]
 dtc[, paste(range(round(Median)), collapse = "-"), by = Shortind]
 dtc[, median(Median), by = Shortind] # get an idea of the range of indicators
 
-dc <- fread(file.path(USERPROFILE, "Dropbox/UN IGME data/2023 Round Estimation/Code/input/country.info.CME.csv"))
+dc <- fread(file.path(USERPROFILE, "Dropbox/UN IGME data/2024 Round Estimation/Code/input/country.info.CME.csv"))
 dtc <- merge(dc[,.(ISO3Code, UNCode)], dtc, by.x = "ISO3Code", by.y = "ISO.Code")
 
 
@@ -103,6 +138,41 @@ region0 <- "Eastern and South-Eastern Asia"
 isos <- dc[SDGSimpleRegion2 == region0, unique(ISO3Code)]
 iso.subset.c <- isos
 
+# ==============================================================================
+# Function: make.world.map
+# ==============================================================================
+#
+# Creates a choropleth map showing mortality indicators with UN cartography standards
+#
+# Parameters:
+#   world.robin    - sf object with world polygons in Robinson projection 
+#   ind0          - Character: mortality indicator code (e.g., "U5MR", "NMR")
+#                   Must be one of the indicators defined in colors_ind
+#   iso.subset.c  - Character vector: ISO3 country codes to highlight
+#                   If NULL, creates world map; if provided, creates regional map
+#   region.name   - Character: descriptive name for the region (used in filename)
+#                   Only relevant when iso.subset.c is provided
+#   plot.coastlines - Logical: whether to include coastlines layer
+#                     Set FALSE for faster rendering, TRUE to show small islands
+#   save.pdf.also  - Logical: whether to save PDF in addition to PNG
+#                     PNG is always saved; PDF optional for vector graphics
+#
+# Returns:
+#   ggplot2 object with the choropleth map
+#   Automatically saves PNG (and optionally PDF) to fig/ directory
+#
+# Color Categories:
+#   Maps are divided into 6 data categories plus "No data" category
+#   Break points are indicator-specific and based on epidemiological significance
+#   Colors use ColorBrewer palettes for accessibility and print quality
+#
+# Special Handling:
+#   - Greenland uses Denmark's color (territorial relationship)
+#   - Hong Kong and Macao use China's color  
+#   - Kosovo has special dashed border treatment
+#   - Aksai Chin region gets striped pattern (China/Kashmir dispute)
+#
+# ==============================================================================
 make.world.map <- function(
     world.robin = world.robin.sf,
     ind0,

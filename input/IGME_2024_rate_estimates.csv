@@ -1,4 +1,4 @@
-ISO.Code,Country.Name,Indicator,Shortind,Sex,Year,Median,Lower,Upper
+ISO3Code,Country.Name,Indicator,Shortind,Sex,Year,Median,Lower,Upper
 AFG,Afghanistan,Under-five mortality rate,U5MR,Total,2023.5,55.5078635022773,42.4156269087595,72.6995272415668
 AGO,Angola,Under-five mortality rate,U5MR,Total,2023.5,64.0125707213696,26.8202847196344,131.971547380838
 AIA,Anguilla,Under-five mortality rate,U5MR,Total,2023.5,5.76517798207701,2.82847378830223,11.7417518250796
@@ -1278,7 +1278,7 @@ HRV,Croatia,Stillbirth rate,SBR,Total,2023.5,2.82678774151677,2.49882820957824,3
 HTI,Haiti,Stillbirth rate,SBR,Total,2023.5,17.7952958258442,10.3781471637443,30.1771954841017
 HUN,Hungary,Stillbirth rate,SBR,Total,2023.5,3.52202149475954,2.90381836643335,4.27613909017694
 IDN,Indonesia,Stillbirth rate,SBR,Total,2023.5,8.32827100396538,6.02607187527942,11.4849383607219
-IND,India,Stillbirth rate,SBR,Total,2023.5,13.2965885802832,10.8607805108332,16.3278545859082
+IND,India,Stillbirth rate,SBR,Total,2023.5,11.8088000000281,10.5857785582996,13.1412543951204
 IRL,Ireland,Stillbirth rate,SBR,Total,2023.5,2.35126336784016,1.95581834080243,2.82026959314186
 IRN,Iran (Islamic Republic of),Stillbirth rate,SBR,Total,2023.5,5.42150246057184,3.5432853262122,8.19006468654781
 IRQ,Iraq,Stillbirth rate,SBR,Total,2023.5,10.842387545222,6.24855395105279,18.5089106892723
@@ -2999,203 +2999,203 @@ YEM,Yemen,Mortality rate age 5-24,20q5,Total,2023.5,19.334551560037,15.523749986
 ZAF,South Africa,Mortality rate age 5-24,20q5,Total,2023.5,26.1975341837544,23.9748846129523,28.836036094254
 ZMB,Zambia,Mortality rate age 5-24,20q5,Total,2023.5,27.7229470106056,19.0526565414582,41.819410090449
 ZWE,Zimbabwe,Mortality rate age 5-24,20q5,Total,2023.5,33.1842033068137,21.7653190817838,52.7707048331553
-AFG,Afghanistan,Stillbirths,SB,Total,2023.5,42077,25831,68256
-AGO,Angola,Stillbirths,SB,Total,2023.5,27994,17453,45006
+AFG,Afghanistan,Stillbirths,SB,Total,2023.5,42352,26000,68701
+AGO,Angola,Stillbirths,SB,Total,2023.5,27987,17448,44994
 AIA,Anguilla,Stillbirths,SB,Total,2023.5,1,0,1
-ALB,Albania,Stillbirths,SB,Total,2023.5,114,100,130
+ALB,Albania,Stillbirths,SB,Total,2023.5,115,101,131
 AND,Andorra,Stillbirths,SB,Total,2023.5,1,1,2
-ARE,United Arab Emirates,Stillbirths,SB,Total,2023.5,361,327,398
-ARG,Argentina,Stillbirths,SB,Total,2023.5,3197,2949,3469
-ARM,Armenia,Stillbirths,SB,Total,2023.5,301,271,336
+ARE,United Arab Emirates,Stillbirths,SB,Total,2023.5,409,370,451
+ARG,Argentina,Stillbirths,SB,Total,2023.5,2578,2377,2797
+ARM,Armenia,Stillbirths,SB,Total,2023.5,330,297,368
 ATG,Antigua and Barbuda,Stillbirths,SB,Total,2023.5,8,5,13
-AUS,Australia,Stillbirths,SB,Total,2023.5,780,712,853
-AUT,Austria,Stillbirths,SB,Total,2023.5,189,174,206
-AZE,Azerbaijan,Stillbirths,SB,Total,2023.5,1228,836,1808
-BDI,Burundi,Stillbirths,SB,Total,2023.5,8135,7136,9247
-BEL,Belgium,Stillbirths,SB,Total,2023.5,363,326,401
-BEN,Benin,Stillbirths,SB,Total,2023.5,9239,8118,10514
-BFA,Burkina Faso,Stillbirths,SB,Total,2023.5,15410,14055,16930
-BGD,Bangladesh,Stillbirths,SB,Total,2023.5,62122,51767,74400
-BGR,Bulgaria,Stillbirths,SB,Total,2023.5,273,253,294
-BHR,Bahrain,Stillbirths,SB,Total,2023.5,88,76,103
-BHS,Bahamas,Stillbirths,SB,Total,2023.5,49,41,58
-BIH,Bosnia and Herzegovina,Stillbirths,SB,Total,2023.5,68,58,80
-BLR,Belarus,Stillbirths,SB,Total,2023.5,182,151,220
-BLZ,Belize,Stillbirths,SB,Total,2023.5,50,43,57
-BOL,Bolivia (Plurinational State of),Stillbirths,SB,Total,2023.5,2200,1511,3199
-BRA,Brazil,Stillbirths,SB,Total,2023.5,16886,15415,18485
-BRB,Barbados,Stillbirths,SB,Total,2023.5,13,10,18
-BRN,Brunei Darussalam,Stillbirths,SB,Total,2023.5,26,20,33
-BTN,Bhutan,Stillbirths,SB,Total,2023.5,82,61,110
-BWA,Botswana,Stillbirths,SB,Total,2023.5,849,537,1338
-CAF,Central African Republic,Stillbirths,SB,Total,2023.5,8125,5044,13086
-CAN,Canada,Stillbirths,SB,Total,2023.5,1081,1029,1136
-CHE,Switzerland,Stillbirths,SB,Total,2023.5,199,183,216
-CHL,Chile,Stillbirths,SB,Total,2023.5,624,566,686
-CHN,China,Stillbirths,SB,Total,2023.5,50007,40286,61852
-CIV,Côte d'Ivoire,Stillbirths,SB,Total,2023.5,22219,16488,29699
-CMR,Cameroon,Stillbirths,SB,Total,2023.5,18063,11486,28532
-COD,Democratic Republic of the Congo,Stillbirths,SB,Total,2023.5,112507,92848,135907
-COG,Congo,Stillbirths,SB,Total,2023.5,2673,1678,4196
-COK,Cook Islands,Stillbirths,SB,Total,2023.5,2,1,2
-COL,Colombia,Stillbirths,SB,Total,2023.5,4742,3372,6706
-COM,Comoros,Stillbirths,SB,Total,2023.5,518,330,827
-CPV,Cabo Verde,Stillbirths,SB,Total,2023.5,80,63,104
-CRI,Costa Rica,Stillbirths,SB,Total,2023.5,272,237,312
-CUB,Cuba,Stillbirths,SB,Total,2023.5,898,790,1020
-CYP,Cyprus,Stillbirths,SB,Total,2023.5,36,30,42
-CZE,Czechia,Stillbirths,SB,Total,2023.5,251,232,272
-DEU,Germany,Stillbirths,SB,Total,2023.5,2243,2083,2416
-DJI,Djibouti,Stillbirths,SB,Total,2023.5,756,669,853
-DMA,Dominica,Stillbirths,SB,Total,2023.5,12,8,19
-DNK,Denmark,Stillbirths,SB,Total,2023.5,128,108,153
-DOM,Dominican Republic,Stillbirths,SB,Total,2023.5,2050,1278,3275
-DZA,Algeria,Stillbirths,SB,Total,2023.5,7956,6816,9284
-ECU,Ecuador,Stillbirths,SB,Total,2023.5,2821,2016,3981
-EGY,Egypt,Stillbirths,SB,Total,2023.5,20819,13113,33383
-ERI,Eritrea,Stillbirths,SB,Total,2023.5,1639,1052,2573
-ESP,Spain,Stillbirths,SB,Total,2023.5,694,631,764
-EST,Estonia,Stillbirths,SB,Total,2023.5,25,21,29
-ETH,Ethiopia,Stillbirths,SB,Total,2023.5,121400,101165,145772
-FIN,Finland,Stillbirths,SB,Total,2023.5,94,84,104
-FJI,Fiji,Stillbirths,SB,Total,2023.5,130,110,155
-FRA,France,Stillbirths,SB,Total,2023.5,2076,1912,2249
-FSM,Micronesia (Federated States of),Stillbirths,SB,Total,2023.5,27,17,44
-GAB,Gabon,Stillbirths,SB,Total,2023.5,836,608,1161
-GBR,United Kingdom,Stillbirths,SB,Total,2023.5,1685,1546,1832
-GEO,Georgia,Stillbirths,SB,Total,2023.5,240,221,261
-GHA,Ghana,Stillbirths,SB,Total,2023.5,17998,13839,23433
-GIN,Guinea,Stillbirths,SB,Total,2023.5,11007,7093,17202
-GMB,Gambia,Stillbirths,SB,Total,2023.5,1686,1121,2521
-GNB,Guinea-Bissau,Stillbirths,SB,Total,2023.5,1944,1331,2902
-GNQ,Equatorial Guinea,Stillbirths,SB,Total,2023.5,912,567,1461
-GRC,Greece,Stillbirths,SB,Total,2023.5,228,199,260
-GRD,Grenada,Stillbirths,SB,Total,2023.5,18,12,29
-GTM,Guatemala,Stillbirths,SB,Total,2023.5,4654,3861,5627
-GUY,Guyana,Stillbirths,SB,Total,2023.5,200,135,300
-HND,Honduras,Stillbirths,SB,Total,2023.5,1752,1364,2249
-HRV,Croatia,Stillbirths,SB,Total,2023.5,95,86,105
-HTI,Haiti,Stillbirths,SB,Total,2023.5,4849,3047,7691
-HUN,Hungary,Stillbirths,SB,Total,2023.5,370,315,436
-IDN,Indonesia,Stillbirths,SB,Total,2023.5,37239,28195,48695
-IND,India,Stillbirths,SB,Total,2023.5,310707,261165,370274
-IRL,Ireland,Stillbirths,SB,Total,2023.5,134,115,156
-IRN,Iran (Islamic Republic of),Stillbirths,SB,Total,2023.5,6240,4364,8871
-IRQ,Iraq,Stillbirths,SB,Total,2023.5,13330,8341,20951
-ISL,Iceland,Stillbirths,SB,Total,2023.5,9,8,11
-ISR,Israel,Stillbirths,SB,Total,2023.5,497,436,568
-ITA,Italy,Stillbirths,SB,Total,2023.5,1042,922,1178
-JAM,Jamaica,Stillbirths,SB,Total,2023.5,448,406,497
-JOR,Jordan,Stillbirths,SB,Total,2023.5,1771,1322,2377
-JPN,Japan,Stillbirths,SB,Total,2023.5,1349,1287,1413
-KAZ,Kazakhstan,Stillbirths,SB,Total,2023.5,1705,1571,1850
-KEN,Kenya,Stillbirths,SB,Total,2023.5,24854,23568,26277
-KGZ,Kyrgyzstan,Stillbirths,SB,Total,2023.5,960,861,1071
-KHM,Cambodia,Stillbirths,SB,Total,2023.5,4213,3164,5640
-KIR,Kiribati,Stillbirths,SB,Total,2023.5,30,23,40
+AUS,Australia,Stillbirths,SB,Total,2023.5,787,719,860
+AUT,Austria,Stillbirths,SB,Total,2023.5,173,159,189
+AZE,Azerbaijan,Stillbirths,SB,Total,2023.5,1275,869,1878
+BDI,Burundi,Stillbirths,SB,Total,2023.5,8462,7423,9619
+BEL,Belgium,Stillbirths,SB,Total,2023.5,316,284,349
+BEN,Benin,Stillbirths,SB,Total,2023.5,9061,7961,10311
+BFA,Burkina Faso,Stillbirths,SB,Total,2023.5,14017,12785,15399
+BGD,Bangladesh,Stillbirths,SB,Total,2023.5,72567,60471,86909
+BGR,Bulgaria,Stillbirths,SB,Total,2023.5,308,286,332
+BHR,Bahrain,Stillbirths,SB,Total,2023.5,104,89,121
+BHS,Bahamas,Stillbirths,SB,Total,2023.5,45,38,54
+BIH,Bosnia and Herzegovina,Stillbirths,SB,Total,2023.5,64,54,75
+BLR,Belarus,Stillbirths,SB,Total,2023.5,137,114,166
+BLZ,Belize,Stillbirths,SB,Total,2023.5,51,44,59
+BOL,Bolivia (Plurinational State of),Stillbirths,SB,Total,2023.5,2168,1489,3153
+BRA,Brazil,Stillbirths,SB,Total,2023.5,16272,14854,17814
+BRB,Barbados,Stillbirths,SB,Total,2023.5,14,10,18
+BRN,Brunei Darussalam,Stillbirths,SB,Total,2023.5,27,21,35
+BTN,Bhutan,Stillbirths,SB,Total,2023.5,85,63,113
+BWA,Botswana,Stillbirths,SB,Total,2023.5,865,546,1363
+CAF,Central African Republic,Stillbirths,SB,Total,2023.5,7972,4948,12839
+CAN,Canada,Stillbirths,SB,Total,2023.5,1016,967,1068
+CHE,Switzerland,Stillbirths,SB,Total,2023.5,193,178,210
+CHL,Chile,Stillbirths,SB,Total,2023.5,486,441,534
+CHN,China,Stillbirths,SB,Total,2023.5,41750,33634,51639
+CIV,Côte d'Ivoire,Stillbirths,SB,Total,2023.5,23077,17124,30845
+CMR,Cameroon,Stillbirths,SB,Total,2023.5,17870,11364,28227
+COD,Democratic Republic of the Congo,Stillbirths,SB,Total,2023.5,116021,95748,140151
+COG,Congo,Stillbirths,SB,Total,2023.5,2778,1743,4361
+COK,Cook Islands,Stillbirths,SB,Total,2023.5,1,1,2
+COL,Colombia,Stillbirths,SB,Total,2023.5,4680,3327,6618
+COM,Comoros,Stillbirths,SB,Total,2023.5,522,332,833
+CPV,Cabo Verde,Stillbirths,SB,Total,2023.5,53,41,68
+CRI,Costa Rica,Stillbirths,SB,Total,2023.5,235,204,269
+CUB,Cuba,Stillbirths,SB,Total,2023.5,871,766,989
+CYP,Cyprus,Stillbirths,SB,Total,2023.5,42,35,50
+CZE,Czechia,Stillbirths,SB,Total,2023.5,231,213,250
+DEU,Germany,Stillbirths,SB,Total,2023.5,2137,1984,2301
+DJI,Djibouti,Stillbirths,SB,Total,2023.5,734,650,828
+DMA,Dominica,Stillbirths,SB,Total,2023.5,9,6,15
+DNK,Denmark,Stillbirths,SB,Total,2023.5,114,96,136
+DOM,Dominican Republic,Stillbirths,SB,Total,2023.5,2076,1294,3316
+DZA,Algeria,Stillbirths,SB,Total,2023.5,8050,6896,9394
+ECU,Ecuador,Stillbirths,SB,Total,2023.5,2554,1825,3604
+EGY,Egypt,Stillbirths,SB,Total,2023.5,20448,12880,32789
+ERI,Eritrea,Stillbirths,SB,Total,2023.5,1528,981,2399
+ESP,Spain,Stillbirths,SB,Total,2023.5,664,604,731
+EST,Estonia,Stillbirths,SB,Total,2023.5,21,18,24
+ETH,Ethiopia,Stillbirths,SB,Total,2023.5,125714,104760,150952
+FIN,Finland,Stillbirths,SB,Total,2023.5,87,78,96
+FJI,Fiji,Stillbirths,SB,Total,2023.5,123,103,146
+FRA,France,Stillbirths,SB,Total,2023.5,1976,1820,2141
+FSM,Micronesia (Federated States of),Stillbirths,SB,Total,2023.5,29,18,46
+GAB,Gabon,Stillbirths,SB,Total,2023.5,901,656,1252
+GBR,United Kingdom,Stillbirths,SB,Total,2023.5,1711,1571,1861
+GEO,Georgia,Stillbirths,SB,Total,2023.5,220,203,239
+GHA,Ghana,Stillbirths,SB,Total,2023.5,17584,13520,22893
+GIN,Guinea,Stillbirths,SB,Total,2023.5,11338,7306,17718
+GMB,Gambia,Stillbirths,SB,Total,2023.5,1546,1028,2312
+GNB,Guinea-Bissau,Stillbirths,SB,Total,2023.5,1941,1329,2898
+GNQ,Equatorial Guinea,Stillbirths,SB,Total,2023.5,992,616,1588
+GRC,Greece,Stillbirths,SB,Total,2023.5,220,193,252
+GRD,Grenada,Stillbirths,SB,Total,2023.5,13,8,21
+GTM,Guatemala,Stillbirths,SB,Total,2023.5,4701,3899,5683
+GUY,Guyana,Stillbirths,SB,Total,2023.5,210,142,316
+HND,Honduras,Stillbirths,SB,Total,2023.5,1886,1469,2421
+HRV,Croatia,Stillbirths,SB,Total,2023.5,89,80,99
+HTI,Haiti,Stillbirths,SB,Total,2023.5,4681,2942,7424
+HUN,Hungary,Stillbirths,SB,Total,2023.5,302,257,355
+IDN,Indonesia,Stillbirths,SB,Total,2023.5,37644,28502,49224
+IND,India,Stillbirths,SB,Total,2023.5,277471,248426,309196
+IRL,Ireland,Stillbirths,SB,Total,2023.5,126,108,146
+IRN,Iran (Islamic Republic of),Stillbirths,SB,Total,2023.5,6397,4474,9094
+IRQ,Iraq,Stillbirths,SB,Total,2023.5,12712,7954,19979
+ISL,Iceland,Stillbirths,SB,Total,2023.5,9,7,11
+ISR,Israel,Stillbirths,SB,Total,2023.5,490,430,561
+ITA,Italy,Stillbirths,SB,Total,2023.5,986,873,1116
+JAM,Jamaica,Stillbirths,SB,Total,2023.5,459,415,508
+JOR,Jordan,Stillbirths,SB,Total,2023.5,1716,1281,2304
+JPN,Japan,Stillbirths,SB,Total,2023.5,1243,1186,1302
+KAZ,Kazakhstan,Stillbirths,SB,Total,2023.5,1765,1627,1916
+KEN,Kenya,Stillbirths,SB,Total,2023.5,24798,23516,26218
+KGZ,Kyrgyzstan,Stillbirths,SB,Total,2023.5,950,851,1059
+KHM,Cambodia,Stillbirths,SB,Total,2023.5,4865,3653,6512
+KIR,Kiribati,Stillbirths,SB,Total,2023.5,30,22,39
 KNA,Saint Kitts and Nevis,Stillbirths,SB,Total,2023.5,4,3,7
-KOR,Republic of Korea,Stillbirths,SB,Total,2023.5,487,440,538
-KWT,Kuwait,Stillbirths,SB,Total,2023.5,209,133,328
-LAO,Lao People's Democratic Republic,Stillbirths,SB,Total,2023.5,2336,1548,3602
-LBN,Lebanon,Stillbirths,SB,Total,2023.5,726,459,1149
-LBR,Liberia,Stillbirths,SB,Total,2023.5,4133,2611,6749
-LBY,Libya,Stillbirths,SB,Total,2023.5,815,514,1289
+KOR,Republic of Korea,Stillbirths,SB,Total,2023.5,400,361,442
+KWT,Kuwait,Stillbirths,SB,Total,2023.5,258,164,405
+LAO,Lao People's Democratic Republic,Stillbirths,SB,Total,2023.5,2373,1572,3658
+LBN,Lebanon,Stillbirths,SB,Total,2023.5,890,562,1408
+LBR,Liberia,Stillbirths,SB,Total,2023.5,4210,2659,6874
+LBY,Libya,Stillbirths,SB,Total,2023.5,871,549,1377
 LCA,Saint Lucia,Stillbirths,SB,Total,2023.5,21,16,27
-LKA,Sri Lanka,Stillbirths,SB,Total,2023.5,1777,1556,2026
-LSO,Lesotho,Stillbirths,SB,Total,2023.5,1377,1030,1846
-LTU,Lithuania,Stillbirths,SB,Total,2023.5,65,58,74
-LUX,Luxembourg,Stillbirths,SB,Total,2023.5,22,19,27
-LVA,Latvia,Stillbirths,SB,Total,2023.5,51,45,58
-MAR,Morocco,Stillbirths,SB,Total,2023.5,7927,6641,9489
+LKA,Sri Lanka,Stillbirths,SB,Total,2023.5,1932,1692,2203
+LSO,Lesotho,Stillbirths,SB,Total,2023.5,1292,967,1733
+LTU,Lithuania,Stillbirths,SB,Total,2023.5,55,48,62
+LUX,Luxembourg,Stillbirths,SB,Total,2023.5,23,19,28
+LVA,Latvia,Stillbirths,SB,Total,2023.5,45,40,51
+MAR,Morocco,Stillbirths,SB,Total,2023.5,7832,6561,9375
 MCO,Monaco,Stillbirths,SB,Total,2023.5,0,0,1
-MDA,Republic of Moldova,Stillbirths,SB,Total,2023.5,383,256,574
-MDG,Madagascar,Stillbirths,SB,Total,2023.5,17232,13095,22540
-MDV,Maldives,Stillbirths,SB,Total,2023.5,36,29,43
-MEX,Mexico,Stillbirths,SB,Total,2023.5,11876,8901,15926
-MHL,Marshall Islands,Stillbirths,SB,Total,2023.5,8,5,13
-MKD,North Macedonia,Stillbirths,SB,Total,2023.5,72,61,84
-MLI,Mali,Stillbirths,SB,Total,2023.5,22169,15777,31035
-MLT,Malta,Stillbirths,SB,Total,2023.5,14,11,17
-MMR,Myanmar,Stillbirths,SB,Total,2023.5,11820,7358,18855
-MNE,Montenegro,Stillbirths,SB,Total,2023.5,26,22,30
-MNG,Mongolia,Stillbirths,SB,Total,2023.5,295,241,364
-MOZ,Mozambique,Stillbirths,SB,Total,2023.5,22473,18314,27546
-MRT,Mauritania,Stillbirths,SB,Total,2023.5,2722,1983,3770
+MDA,Republic of Moldova,Stillbirths,SB,Total,2023.5,254,170,381
+MDG,Madagascar,Stillbirths,SB,Total,2023.5,18792,14281,24581
+MDV,Maldives,Stillbirths,SB,Total,2023.5,30,25,36
+MEX,Mexico,Stillbirths,SB,Total,2023.5,13029,9765,17472
+MHL,Marshall Islands,Stillbirths,SB,Total,2023.5,8,5,14
+MKD,North Macedonia,Stillbirths,SB,Total,2023.5,61,52,72
+MLI,Mali,Stillbirths,SB,Total,2023.5,22144,15760,31001
+MLT,Malta,Stillbirths,SB,Total,2023.5,12,10,14
+MMR,Myanmar,Stillbirths,SB,Total,2023.5,11739,7308,18726
+MNE,Montenegro,Stillbirths,SB,Total,2023.5,27,23,31
+MNG,Mongolia,Stillbirths,SB,Total,2023.5,285,233,351
+MOZ,Mozambique,Stillbirths,SB,Total,2023.5,23459,19117,28754
+MRT,Mauritania,Stillbirths,SB,Total,2023.5,2964,2160,4106
 MSR,Montserrat,Stillbirths,SB,Total,2023.5,0,0,1
-MUS,Mauritius,Stillbirths,SB,Total,2023.5,118,107,131
-MWI,Malawi,Stillbirths,SB,Total,2023.5,10909,8906,13327
-MYS,Malaysia,Stillbirths,SB,Total,2023.5,2462,2365,2563
-NAM,Namibia,Stillbirths,SB,Total,2023.5,1141,1033,1262
-NER,Niger,Stillbirths,SB,Total,2023.5,26665,18025,39075
-NGA,Nigeria,Stillbirths,SB,Total,2023.5,198414,128485,312190
-NIC,Nicaragua,Stillbirths,SB,Total,2023.5,1323,920,1901
+MUS,Mauritius,Stillbirths,SB,Total,2023.5,106,96,117
+MWI,Malawi,Stillbirths,SB,Total,2023.5,10641,8688,13000
+MYS,Malaysia,Stillbirths,SB,Total,2023.5,2116,2033,2203
+NAM,Namibia,Stillbirths,SB,Total,2023.5,1264,1145,1398
+NER,Niger,Stillbirths,SB,Total,2023.5,24013,16232,35189
+NGA,Nigeria,Stillbirths,SB,Total,2023.5,183749,118989,289115
+NIC,Nicaragua,Stillbirths,SB,Total,2023.5,1267,881,1820
 NIU,Niue,Stillbirths,SB,Total,2023.5,0,0,0
-NLD,Netherlands (Kingdom of the),Stillbirths,SB,Total,2023.5,393,356,435
-NOR,Norway,Stillbirths,SB,Total,2023.5,110,98,123
-NPL,Nepal,Stillbirths,SB,Total,2023.5,8395,6355,11162
+NLD,Netherlands (Kingdom of the),Stillbirths,SB,Total,2023.5,362,327,401
+NOR,Norway,Stillbirths,SB,Total,2023.5,104,93,116
+NPL,Nepal,Stillbirths,SB,Total,2023.5,7861,5951,10452
 NRU,Nauru,Stillbirths,SB,Total,2023.5,2,1,3
-NZL,New Zealand,Stillbirths,SB,Total,2023.5,177,152,205
-OMN,Oman,Stillbirths,SB,Total,2023.5,406,355,465
-PAK,Pakistan,Stillbirths,SB,Total,2023.5,183455,152636,221147
-PAN,Panama,Stillbirths,SB,Total,2023.5,511,462,567
-PER,Peru,Stillbirths,SB,Total,2023.5,3845,3069,4814
-PHL,Philippines,Stillbirths,SB,Total,2023.5,29527,22574,38794
-PLW,Palau,Stillbirths,SB,Total,2023.5,2,1,4
-PNG,Papua New Guinea,Stillbirths,SB,Total,2023.5,4972,3006,8316
-POL,Poland,Stillbirths,SB,Total,2023.5,1000,946,1059
-PRK,Democratic People's Republic of Korea,Stillbirths,SB,Total,2023.5,2799,1763,4389
-PRT,Portugal,Stillbirths,SB,Total,2023.5,173,159,188
-PRY,Paraguay,Stillbirths,SB,Total,2023.5,1251,860,1840
-PSE,State of Palestine,Stillbirths,SB,Total,2023.5,1351,856,2148
-QAT,Qatar,Stillbirths,SB,Total,2023.5,68,60,76
-RKS,Kosovo (UNSCR 1244),Stillbirths,SB,Total,2023.5,86,70,105
-ROU,Romania,Stillbirths,SB,Total,2023.5,745,681,816
-RUS,Russian Federation,Stillbirths,SB,Total,2023.5,4369,3483,5485
-RWA,Rwanda,Stillbirths,SB,Total,2023.5,6739,5209,8719
-SAU,Saudi Arabia,Stillbirths,SB,Total,2023.5,2457,1567,3917
-SDN,Sudan,Stillbirths,SB,Total,2023.5,34434,23863,49844
-SEN,Senegal,Stillbirths,SB,Total,2023.5,10325,8846,12096
-SGP,Singapore,Stillbirths,SB,Total,2023.5,78,65,93
-SLB,Solomon Islands,Stillbirths,SB,Total,2023.5,238,145,389
-SLE,Sierra Leone,Stillbirths,SB,Total,2023.5,5503,3487,8871
-SLV,El Salvador,Stillbirths,SB,Total,2023.5,817,550,1206
+NZL,New Zealand,Stillbirths,SB,Total,2023.5,164,141,189
+OMN,Oman,Stillbirths,SB,Total,2023.5,434,380,497
+PAK,Pakistan,Stillbirths,SB,Total,2023.5,195007,162247,235073
+PAN,Panama,Stillbirths,SB,Total,2023.5,477,430,529
+PER,Peru,Stillbirths,SB,Total,2023.5,3523,2813,4411
+PHL,Philippines,Stillbirths,SB,Total,2023.5,21734,16616,28555
+PLW,Palau,Stillbirths,SB,Total,2023.5,2,1,3
+PNG,Papua New Guinea,Stillbirths,SB,Total,2023.5,5002,3024,8365
+POL,Poland,Stillbirths,SB,Total,2023.5,750,710,794
+PRK,Democratic People's Republic of Korea,Stillbirths,SB,Total,2023.5,2828,1781,4434
+PRT,Portugal,Stillbirths,SB,Total,2023.5,188,173,205
+PRY,Paraguay,Stillbirths,SB,Total,2023.5,1245,856,1832
+PSE,State of Palestine,Stillbirths,SB,Total,2023.5,1349,855,2145
+QAT,Qatar,Stillbirths,SB,Total,2023.5,83,74,94
+RKS,Kosovo (UNSCR 1244),Stillbirths,SB,Total,2023.5,95,77,116
+ROU,Romania,Stillbirths,SB,Total,2023.5,638,583,699
+RUS,Russian Federation,Stillbirths,SB,Total,2023.5,4120,3285,5172
+RWA,Rwanda,Stillbirths,SB,Total,2023.5,6505,5028,8416
+SAU,Saudi Arabia,Stillbirths,SB,Total,2023.5,2211,1411,3525
+SDN,Sudan,Stillbirths,SB,Total,2023.5,36973,25623,53519
+SEN,Senegal,Stillbirths,SB,Total,2023.5,9764,8365,11438
+SGP,Singapore,Stillbirths,SB,Total,2023.5,87,72,103
+SLB,Solomon Islands,Stillbirths,SB,Total,2023.5,240,146,392
+SLE,Sierra Leone,Stillbirths,SB,Total,2023.5,5340,3384,8609
+SLV,El Salvador,Stillbirths,SB,Total,2023.5,815,549,1203
 SMR,San Marino,Stillbirths,SB,Total,2023.5,0,0,1
-SOM,Somalia,Stillbirths,SB,Total,2023.5,28011,16931,45869
-SRB,Serbia,Stillbirths,SB,Total,2023.5,298,277,321
-SSD,South Sudan,Stillbirths,SB,Total,2023.5,9138,5650,14954
-STP,Sao Tome and Principe,Stillbirths,SB,Total,2023.5,59,38,94
-SUR,Suriname,Stillbirths,SB,Total,2023.5,115,73,184
-SVK,Slovakia,Stillbirths,SB,Total,2023.5,217,200,237
-SVN,Slovenia,Stillbirths,SB,Total,2023.5,46,41,53
-SWE,Sweden,Stillbirths,SB,Total,2023.5,282,253,315
-SWZ,Eswatini,Stillbirths,SB,Total,2023.5,392,269,574
-SYC,Seychelles,Stillbirths,SB,Total,2023.5,12,9,16
-SYR,Syrian Arab Republic,Stillbirths,SB,Total,2023.5,5796,3584,9304
+SOM,Somalia,Stillbirths,SB,Total,2023.5,28523,17240,46706
+SRB,Serbia,Stillbirths,SB,Total,2023.5,274,254,295
+SSD,South Sudan,Stillbirths,SB,Total,2023.5,9335,5771,15275
+STP,Sao Tome and Principe,Stillbirths,SB,Total,2023.5,60,38,95
+SUR,Suriname,Stillbirths,SB,Total,2023.5,113,72,180
+SVK,Slovakia,Stillbirths,SB,Total,2023.5,182,167,198
+SVN,Slovenia,Stillbirths,SB,Total,2023.5,45,39,51
+SWE,Sweden,Stillbirths,SB,Total,2023.5,243,218,271
+SWZ,Eswatini,Stillbirths,SB,Total,2023.5,410,281,600
+SYC,Seychelles,Stillbirths,SB,Total,2023.5,13,10,17
+SYR,Syrian Arab Republic,Stillbirths,SB,Total,2023.5,6160,3809,9888
 TCA,Turks and Caicos Islands,Stillbirths,SB,Total,2023.5,3,2,5
-TCD,Chad,Stillbirths,SB,Total,2023.5,22815,14482,36646
-TGO,Togo,Stillbirths,SB,Total,2023.5,5643,5110,6239
-THA,Thailand,Stillbirths,SB,Total,2023.5,2471,2259,2708
-TJK,Tajikistan,Stillbirths,SB,Total,2023.5,2067,1458,2957
-TKM,Turkmenistan,Stillbirths,SB,Total,2023.5,980,618,1556
-TLS,Timor-Leste,Stillbirths,SB,Total,2023.5,498,314,805
-TON,Tonga,Stillbirths,SB,Total,2023.5,17,10,28
-TTO,Trinidad and Tobago,Stillbirths,SB,Total,2023.5,157,115,217
-TUN,Tunisia,Stillbirths,SB,Total,2023.5,1746,1305,2350
-TUR,Türkiye,Stillbirths,SB,Total,2023.5,5362,4947,5802
-TUV,Tuvalu,Stillbirths,SB,Total,2023.5,2,1,4
-TZA,United Republic of Tanzania,Stillbirths,SB,Total,2023.5,46949,36512,61178
-UGA,Uganda,Stillbirths,SB,Total,2023.5,25527,22403,29088
-UKR,Ukraine,Stillbirths,SB,Total,2023.5,893,773,1037
-URY,Uruguay,Stillbirths,SB,Total,2023.5,151,133,171
-USA,United States,Stillbirths,SB,Total,2023.5,10067,9341,10837
-UZB,Uzbekistan,Stillbirths,SB,Total,2023.5,5354,5183,5530
-VCT,Saint Vincent and the Grenadines,Stillbirths,SB,Total,2023.5,13,11,17
-VEN,Venezuela (Bolivarian Republic of),Stillbirths,SB,Total,2023.5,4751,2926,7683
-VGB,British Virgin Islands,Stillbirths,SB,Total,2023.5,2,1,2
-VNM,Viet Nam,Stillbirths,SB,Total,2023.5,9294,6249,13914
-VUT,Vanuatu,Stillbirths,SB,Total,2023.5,111,67,183
-WSM,Samoa,Stillbirths,SB,Total,2023.5,51,31,84
-YEM,Yemen,Stillbirths,SB,Total,2023.5,21488,15322,30223
-ZAF,South Africa,Stillbirths,SB,Total,2023.5,21760,18332,26031
-ZMB,Zambia,Stillbirths,SB,Total,2023.5,9897,8716,11196
-ZWE,Zimbabwe,Stillbirths,SB,Total,2023.5,9772,8579,11103
+TCD,Chad,Stillbirths,SB,Total,2023.5,23977,15219,38514
+TGO,Togo,Stillbirths,SB,Total,2023.5,5799,5252,6412
+THA,Thailand,Stillbirths,SB,Total,2023.5,2341,2140,2565
+TJK,Tajikistan,Stillbirths,SB,Total,2023.5,2187,1542,3128
+TKM,Turkmenistan,Stillbirths,SB,Total,2023.5,1201,757,1906
+TLS,Timor-Leste,Stillbirths,SB,Total,2023.5,460,290,744
+TON,Tonga,Stillbirths,SB,Total,2023.5,17,10,27
+TTO,Trinidad and Tobago,Stillbirths,SB,Total,2023.5,148,108,205
+TUN,Tunisia,Stillbirths,SB,Total,2023.5,1555,1163,2094
+TUR,Türkiye,Stillbirths,SB,Total,2023.5,4735,4368,5123
+TUV,Tuvalu,Stillbirths,SB,Total,2023.5,2,1,3
+TZA,United Republic of Tanzania,Stillbirths,SB,Total,2023.5,46196,35927,60197
+UGA,Uganda,Stillbirths,SB,Total,2023.5,25286,22192,28814
+UKR,Ukraine,Stillbirths,SB,Total,2023.5,1028,889,1194
+URY,Uruguay,Stillbirths,SB,Total,2023.5,141,125,160
+USA,United States,Stillbirths,SB,Total,2023.5,9830,9122,10583
+UZB,Uzbekistan,Stillbirths,SB,Total,2023.5,6690,6476,6911
+VCT,Saint Vincent and the Grenadines,Stillbirths,SB,Total,2023.5,13,10,16
+VEN,Venezuela (Bolivarian Republic of),Stillbirths,SB,Total,2023.5,4459,2747,7211
+VGB,British Virgin Islands,Stillbirths,SB,Total,2023.5,2,1,3
+VNM,Viet Nam,Stillbirths,SB,Total,2023.5,9091,6113,13611
+VUT,Vanuatu,Stillbirths,SB,Total,2023.5,104,63,173
+WSM,Samoa,Stillbirths,SB,Total,2023.5,47,28,76
+YEM,Yemen,Stillbirths,SB,Total,2023.5,29458,21005,41434
+ZAF,South Africa,Stillbirths,SB,Total,2023.5,22638,19072,27082
+ZMB,Zambia,Stillbirths,SB,Total,2023.5,9765,8600,11047
+ZWE,Zimbabwe,Stillbirths,SB,Total,2023.5,9833,8632,11172

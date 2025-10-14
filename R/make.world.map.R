@@ -4,18 +4,32 @@
 make.world.map <- function(
     world.robin = world.robin.sf, 
     ind0, 
-    color_palette = NULL, # lighest hues first, self supply palette, overwrite the default match 
-    use_qualitative_palette = FALSE, # use qualitative palette
+    map_name = NULL,
+    map_num = NULL,
     dir.save = output.dir.fig,
-    map_num = NULL
+    my_legend_title = NULL,
+    my_category_labels = NULL, # map label from top to bottom 
+    my_category_break = NULL,
+    my_color_palette = NULL, # lightest hues first, self supply palette, overwrite the default match 
+    use_qualitative_palette = FALSE # option to use qualitative palette
     ){
   
   qualitative_palette <- c("#0058AB", "#1CABE2", "#00833D", "#80BD41", "#6A1E74" ,"#961A49", "#E2231A" ,"#F26A21", "#FFC20E", "#FFF09C")
   
-  stopifnot(ind0 %in% names(colors_ind))
-  legend.title <- inds_rate_label_unit[[ind0]]
-  color.palette <- dplyr::recode(ind0, !!!colors_ind) # sequential color palette is the default 
+  if(is.null(my_color_palette)){
+    stopifnot(ind0 %in% names(colors_ind))
+    color.palette <- dplyr::recode(ind0, !!!colors_ind) # sequential color palette is the default 
+  } 
+  
+  if(is.null(my_legend_title)){
+    legend.title <- inds_rate_label_unit[[ind0]]  
+  } else {
+    legend.title <- my_legend_title
+  }
+  
   # map legend breaks
+  if(is.null(my_category_break)){
+  
   category.breaks <- switch (ind0,
                              
                              "SBR"     = c(30, 25, 20, 12, 5),
@@ -28,8 +42,12 @@ make.world.map <- function(
                              "5q10"    = c(15, 10, 7.5, 5, 2.5),
                              "5q15"    = c(15, 10, 7.5, 5, 2.5),
                              "10q10"   = c(20, 15, 10, 5, 2.5),
-                             "SBPD"    = c(50, 25, 0) # stillbirth percentage decline 
+                             "SBPD"    = c(50, 25) # stillbirth percentage decline 
   )
+  } else {
+     category.breaks <- my_category_break
+  }
+  if(is.null(category.breaks)) stop("category breaks not pre-set in function for this indicator, supply `my_category_break`")
   # Number of categories into which to split data, not including No data
   # e.g. for U5MR: 6 categories: <=10, 10-25, 25-50, 50-75, 75-100, >100
   NumOfCategories <- length(category.breaks) + 1
@@ -41,7 +59,9 @@ make.world.map <- function(
   legend.labels[1] <- paste0(">", l1[1])
   legend.labels[NumOfCategories] <- paste0("≤", l1[length(l1)])
   legend.labels[NumOfCategories+1] <- "No data"
+  message("legend.labels assigned by default: ", paste(legend.labels, collapse = ", "))
   
+  if(!is.null(my_category_labels)) legend.labels <- my_category_labels
   
   # data --------------------------------------------------------------------
   # Prepare data
@@ -59,29 +79,42 @@ make.world.map <- function(
   # Attach data to world.robin sf object
   world.robin <- left_join(world.robin, indata, by = "M49COLOR")
   
-  colors <- brewer.pal(NumOfCategories, color.palette) # (requires RColorBrewer package)
-  colors <- colors[1:length(colors)] # eliminate the lightest hue as it tends not to map well (looks white in many palettes)
-  # still, the lightest hues first
+  # color 
+    if(!is.null(my_color_palette)){
+    colors <- my_color_palette
+  } else {
+    colors <- brewer.pal(NumOfCategories, color.palette) # (requires RColorBrewer package)
+    colors <- colors[1:length(colors)] # eliminate the lightest hue as it tends not to map well (looks white in many palettes)
+    # still, the lightest hues first
+  }
   
-  # overwrite 
-  if(!is.null(color_palette)) colors <- color_palette
   if(use_qualitative_palette) colors <- qualitative_palette
   
   
   # Ensure we have the correct number of colors
   colors <- colors[1:(length(category.breaks) + 1)]
   
-  sorted_breaks <- sort(category.breaks)
+  sorted_breaks <- as.integer(sort(category.breaks))
+  
   # Assign color codes based on category breaks dynamically
   world.robin <- world.robin %>%
     mutate(colorcode = case_when(
       is.na(vartomap) ~ NoDataColor,  # Handle missing values first
-      TRUE ~ colors[findInterval(vartomap, vec = sorted_breaks, rightmost.closed = TRUE) + 1]
+      TRUE ~ colors[findInterval(vartomap, vec = sorted_breaks, left.open = TRUE) + 1]
     ))
-  table(world.robin$colorcode)
   
-  # colors <- c( "#F26A21", "#FFF09C", "#1CABE2", "#00833D")
+  # test 
+  # findInterval(c(9, 10, 11, 25, 50, 75, 100, 101, 102), 
+  #              vec = rev(c(100, 75, 50, 25, 10)), left.open = TRUE) 
+  # returns: 
+  # 0 0 1 1 2 3 4 5 5
   
+  dt_color <- data.table(ISO3Code = world.robin$ISO3_CODE, colorcode = world.robin$colorcode)
+  dt_color <- unique(dt_color[ISO3Code %in% dtc$ISO3Code & colorcode!="darkgray",])
+  dt_color[, colorcode := factor(colorcode, levels = colors)]
+  print (table(dt_color$colorcode))
+  
+  # Deep <-     -----------------  <- light 
   #00833D  #1CABE2  #F26A21  #FFF09C darkgray 
   # 30      143        4       55       51 
   
@@ -147,6 +180,7 @@ make.world.map <- function(
   # Save --------------------------------------------------------------------
   filename0 <- paste0("Map", "_", ind0) # e.g. Map_U5MR.png
   if(!is.null(map_num))   filename0 <- paste0("Map ", map_num, "_", ind0) # e.g. Map 1_U5MR.png
+  if(!is.null(map_name))  filename0 <- map_name
   file_path <- file.path(dir.save, paste0(filename0, ".png"))
   
   png(file = file_path, width = 10, height = 4.5, units = "in", res = 300)

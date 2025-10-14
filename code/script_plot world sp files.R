@@ -1,4 +1,27 @@
-# some quick plot of the world shapefiles
+# ==============================================================================
+# Shapefile Visualization Utility
+# ==============================================================================
+#
+# Purpose:
+#   Quick visualization script for testing and viewing UN cartography shapefiles.
+#   Helps verify shapefile integrity and projection before using in main mapping.
+#
+# Author: UNICEF IGME Team
+# 
+# Features:
+#   - Reads both .shp files and processed .rds objects
+#   - Applies Robinson projection for UN cartography standards
+#   - Generates test plots to verify spatial data quality
+#   - Saves sample maps for reference
+#
+# Dependencies:
+#   - sf: spatial data handling
+#   - ggplot2: map visualization
+#
+# Usage:
+#   Run script to generate test plots of available shapefiles
+#   Check output in fig/ directory for shapefile quality
+# ==============================================================================
 
 library("ggplot2")
 library("sf")

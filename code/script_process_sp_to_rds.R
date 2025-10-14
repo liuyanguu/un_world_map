@@ -1,3 +1,37 @@
+# ==============================================================================
+# Shapefile Processing and Conversion Utility
+# ==============================================================================
+#
+# Purpose:
+#   Converts UN cartography shapefiles to R objects for faster loading.
+#   Applies Robinson projection and handles special territory assignments.
+#
+# Author: UNICEF IGME Team
+#
+# Process:
+#   1. Reads .shp files using rgdal (now retired - consider sf::st_read)
+#   2. Applies Robinson projection (UN cartography standard)
+#   3. Handles special cases (Greenland→Denmark, Hong Kong→China)
+#   4. Saves as .rds objects for faster subsequent loading
+#
+# Dependencies:
+#   - sp: spatial polygons (legacy)
+#   - sf: modern spatial data handling 
+#   - rgdal: shapefile reading (RETIRED - migrate to sf)
+#   - RColorBrewer, ggplot2, scales: visualization support
+#
+# Output:
+#   - sp.world.robin.rds: main world polygons (10% resolution)
+#   - sp.world.robin.35pt.rds: higher resolution world polygons  
+#   - sp.bnd.rds: country boundaries
+#   - sp.cst.rds: coastlines
+#   - sp.lks.rds: lakes
+#   - sp.RKS.boarder.rds: Kosovo borders
+#
+# Migration Note:
+#   Consider updating to use sf::st_read() instead of rgdal::readOGR()
+# ==============================================================================
+
 library("sp")
 library("sf")
 library("RColorBrewer")

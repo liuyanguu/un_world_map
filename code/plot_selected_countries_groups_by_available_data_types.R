@@ -1,7 +1,33 @@
-# a simpler script to only highlight countries on the map
-# plot countries on the map, does not load estimates
-
-# 2024.06
+# ==============================================================================
+# Data Availability Mapping Script
+# ==============================================================================
+#
+# Purpose:
+#   Creates maps showing countries grouped by available data types for mortality indicators.
+#   Visualizes data sources: survey data only, vital registration (VR) only, or both.
+#
+# Author: UNICEF IGME Team
+# Created: 2025.06
+# Last Modified: 2025.06
+#
+# Features:
+#   - Categorizes countries by data availability (survey, VR, survey+VR)
+#   - Color-coded map with custom legend for each data type
+#   - Highlights data gaps and coverage for IGME reporting
+#   - Uses UN cartography standards
+#
+# Dependencies:
+#   - sf: spatial data handling
+#   - ggplot2: map visualization
+#   - data.table: data manipulation
+#
+# Data Sources:
+#   - IGME database with series category information
+#   - Country metadata with ISO codes
+#
+# Output:
+#   Maps showing global data availability patterns for mortality estimation
+# ==============================================================================
 
 library("data.table")
 library("ggplot2")
@@ -14,13 +40,13 @@ map.rds.dir <- file.path(work.dir, "rds") # location of the shapefiles
 output.dir.fig <- file.path(work.dir, "fig") # location to save the map
 
 USERPROFILE <- Sys.getenv("USERPROFILE")
-dc <- fread(file.path(USERPROFILE, "Dropbox/UN IGME data/2023 Round Estimation/Code/input/country.info.CME.csv"))
+dc <- fread(file.path(USERPROFILE, "Dropbox/UN IGME data/2024 Round Estimation/Code/input/country.info.CME.csv"))
 
 
 # import data  ------------------------------------------------------------
-work_dir_report <- "D:/OneDrive - UNICEF/Documents - Child Mortality/IGME report/2024/Code_for_report"
+work_dir_report <- "D:/OneDrive - UNICEF/Documents - Child Mortality/IGME report/2025/Code_for_report"
 
-dt_U5MR <- fread(file.path(work_dir_report, "db_U5MR_new_series_marked_2024.csv"))[Inclusion == 1]
+dt_U5MR <- fread(file.path(work_dir_report, "db_U5MR_new_series_marked_2025.csv"))[Inclusion == 1]
 dt_U5MR[, data_type  := "survey"]
 dt_U5MR[Series.Category == "VR", data_type := "VR"]
 dt_U5MR[Series.Category == "SVR", data_type := "VR"]
@@ -126,4 +152,5 @@ plot.selected.countries <- function(
   ggsave(filename = filename0, height = 4.5, width = 10, bg = "white", dpi = 300)
   message("Saved to ", filename0)
 }
+
 plot.selected.countries(filename = "ava data types_included") 

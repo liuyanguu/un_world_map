@@ -20,3 +20,17 @@ dtc[, paste(range(round(Median)), collapse = "-"), by = Shortind]
 dtc[, median(Median), by = Shortind]
 
 fwrite(dtc, "input/IGME_2024_rate_estimates.csv")
+
+
+# country.info.CME --------------------------------------------------------
+
+source(file.path(USERPROFILE, "Dropbox/UNICEF Work/profile.R"))
+dc_complete <- fread(file.path(dir_IGME, "2025 Round Estimation/Code/input/country.info.CME.csv"))
+# drop columns with "pop"
+
+cols_to_drop <- grep("pop", colnames(dc_complete), ignore.case = TRUE, value = TRUE)
+dc <- dc_complete[, !..cols_to_drop]
+saveRDS(dc, "input/country.info.CME.regions.rds")
+
+dc_names <- dc_complete[, .(ISO3Code, UNCode, OfficialName)]
+saveRDS(dc_names, "input/new_cnames.rds")

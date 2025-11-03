@@ -1,5 +1,5 @@
 # ==============================================================================
-# World Maps for Child Mortality Indicators by Region
+# World Maps for Child Mortality Indicators by Region or for the World
 # ==============================================================================
 #
 # Purpose: 
@@ -38,6 +38,7 @@
 #   3. Maps are saved to fig/ directory automatically
 # ==============================================================================
 
+YEAR_TO_PLOT <- 2023.5
 
 # Color palette mapping for each mortality indicator
 # Uses ColorBrewer palettes that are colorblind-friendly and print well
@@ -116,13 +117,15 @@ cst <- st_as_sf(cst)
 # load estimates
 dir_CME_est <- file.path(USERPROFILE, "Dropbox/UNICEF Work/Data and charts for websites/Files 2024/CME/Estimates/")
 dtc <- fread(file.path(dir_CME_est, "UNIGME2024_Country_Rates_&_Deaths.csv"))
-dtc <- dtc[Year==2021.5 & Sex=="Total"]
-dtc <- dtc[Shortind %in% inds]
+dtc <- dtc[Year== YEAR_TO_PLOT & Sex=="Total"]
+
 dtc[, paste(range(round(Median)), collapse = "-"), by = Shortind]
 dtc[, median(Median), by = Shortind] # get an idea of the range of indicators
 
-dc <- fread(file.path(USERPROFILE, "Dropbox/UN IGME data/2024 Round Estimation/Code/input/country.info.CME.csv"))
-dtc <- merge(dc[,.(ISO3Code, UNCode)], dtc, by.x = "ISO3Code", by.y = "ISO.Code")
+# Load country metadata with ISO codes and UN codes for mapping
+dc_region <- setDT(readRDS(file.path(work.dir, "input/country.info.CME.regions.rds")))
+
+dtc <- merge(dc_region[,.(ISO3Code, UNCode)], dtc, by.x = "ISO3Code", by.y = "ISO.Code")
 
 
 # Data loading complete ---------------------------------------------------
@@ -135,7 +138,7 @@ iso.subset.c = NULL
 
 # option 2. region map
 region0 <- "Eastern and South-Eastern Asia"
-isos <- dc[SDGSimpleRegion2 == region0, unique(ISO3Code)]
+isos <- dc_region[SDGSimpleRegion2 == region0, unique(ISO3Code)]
 iso.subset.c <- isos
 
 # ==============================================================================
@@ -176,6 +179,7 @@ iso.subset.c <- isos
 make.world.map <- function(
     world.robin = world.robin.sf,
     ind0,
+    ind_bubble = NULL, 
     iso.subset.c = NULL, # if NULL, plot world, otherwise, plot selected countries
     region.name  = "selected region", # a name used in filename for regional map
     plot.coastlines = FALSE, # do we want to show coastlines to see all small islands --- slow, set as FALSE, 
@@ -199,11 +203,11 @@ make.world.map <- function(
   # should have 5 breaks: since NumOfCategories is 6
   category.breaks <- switch (ind0,
     # CME
-    "U5MR"    = c(100, 75, 40, 25, 12),
-    "NMR"     = c(40, 30, 20, 12, 5),
+    # "U5MR"    = c(100, 75, 40, 25, 12),
+    # "NMR"     = c(40, 30, 20, 12, 5),
     # report:                         
-    # "U5MR"    = c(100, 75, 50, 25, 10),
-    # "NMR"     = c(35, 30, 25, 12, 5),
+    "U5MR"    = c(100, 75, 50, 25, 10),
+    "NMR"     = c(35, 30, 25, 12, 5),
     "MR1t59"  = c(45, 35, 25, 15, 5),
     "IMR"     = c(25, 20, 12, 5, 2.5),
     "MR1t11"  = c(45, 35, 25, 15, 5),
@@ -266,8 +270,30 @@ make.world.map <- function(
   # 5        8       20       36       63      102       49 
     
     # note that not all legend categories exist
-    legend.labels.exist <- legend.labels[which(colors %in% world.robin$colorcode)]
-    if(!1 %in% which(colors %in% world.robin$colorcode)) legend.labels.exist[1] <- paste0(">", gsub( " .*$", "", legend.labels.exist[1]))
+    # Create a mapping between colors and labels
+    all_colors <- c(colors, NoDataColor)
+    names(legend.labels) <- all_colors
+    
+    # Get only the labels for colors that exist in the data, preserving order
+    colors_in_data <- unique(world.robin$colorcode)
+    
+    # Separate data colors from NoDataColor to control order
+    data_colors_exist <- colors[colors %in% colors_in_data]
+    legend.labels.exist <- legend.labels[data_colors_exist]
+    
+    # Fix the first label if the highest category doesn't exist
+    if(!colors[1] %in% colors_in_data && length(legend.labels.exist) > 0) {
+      first_color <- data_colors_exist[1]
+      if(!is.na(first_color)) {
+        legend.labels.exist[first_color] <- paste0(">", gsub( " .*$", "", legend.labels.exist[first_color]))
+      }
+    }
+    
+    # Add "No data" at the end if it exists
+    if(NoDataColor %in% colors_in_data) {
+      legend.labels.exist <- c(legend.labels.exist, "No data" = legend.labels[NumOfCategories+1])
+      names(legend.labels.exist)[length(legend.labels.exist)] <- NoDataColor
+    }
  
     # UN Cartography requires that the Askai Chin region be striped half in the color of China and half in the color of
     # Jammu-Kashmir (no data for most of UNPD purposes)
@@ -316,7 +342,7 @@ make.world.map <- function(
       geom_sf(data = bnd.ssd,  linetype = "dashed", linewidth = BDLINE_WIDTH, color = "white") +
       geom_sf(data = rks,      linetype = "dashed", linewidth = BDLINE_WIDTH, color = "white", fill = NA) +
       scale_fill_identity(guide = "legend", 
-                          labels = legend.labels.exist, 
+                          labels = unname(legend.labels.exist), 
                           name = legend.title, drop = TRUE) +  # fill as it is , cannot keep all, 
       # coord_sf(xlim = c(x_min, x_max), ylim = c(y_min, y_max)) +
       coord_sf(xlim = c(bbox[['xmin']], bbox[['xmax']]), ylim = c(bbox[['ymin']], bbox[['ymax']])) +
@@ -421,7 +447,7 @@ make.world.map <- function(
 }
 
 # option 1. world map
-make.world.map(ind0 = "MR1t59", save.pdf.also = TRUE)
+make.world.map(ind0 = "U5MR", save.pdf.also = TRUE)
 
 # run world maps for all indicators
 # invisible(lapply(inds, make.world.map))
@@ -429,7 +455,7 @@ make.world.map(ind0 = "MR1t59", save.pdf.also = TRUE)
 
 # option 2. region map
 region0 <- "South Asia"
-isos <- dc[UNICEFProgRegion1 == region0, unique(ISO3Code)]
+isos <- dc_region[UNICEFProgRegion1 == region0, unique(ISO3Code)]
 make.world.map(ind0 = "MR1t59", iso.subset.c = isos, region.name = region0)
 
 
@@ -439,10 +465,10 @@ make.world.map(ind0 = "MR1t59", iso.subset.c = c("USA", "CAN"), region.name = re
 
 
 # if want to run through all regions:
-regions_UNICEF <- unique(dc$UNICEFProgRegion1)
+regions_UNICEF <- unique(dc_region$UNICEFProgRegion1)
 plot.each.region <- function(region0){
   message("making maps for ", region0)
-  isos <- dc[UNICEFProgRegion1 == region0, unique(ISO3Code)]
+  isos <- dc_region[UNICEFProgRegion1 == region0, unique(ISO3Code)]
   make.world.map(ind0 = "SBR", iso.subset.c = isos, region.name = region0, save.pdf.also = TRUE)
 }
 # invisible(lapply(regions_UNICEF, plot.each.region))

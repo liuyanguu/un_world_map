@@ -38,7 +38,7 @@
 #   3. Maps are saved to fig/ directory automatically
 # ==============================================================================
 
-YEAR_TO_PLOT <- 2023.5
+YEAR_TO_PLOT <- 2024.5
 
 # Color palette mapping for each mortality indicator
 # Uses ColorBrewer palettes that are colorblind-friendly and print well
@@ -65,8 +65,9 @@ inds_rate_label_unit  <- c("U5MR"   = "Under-five mortality rate\n(deaths per 1,
                            "MR1t59" = "1–59-months mortality rate\n(deaths per 1,000 children \naged 28 days)",
                            "5q5"    = "Mortality rate age 5–9\n(deaths per 1,000 children aged 5 years)",
                            "5q10"   = "Mortality rate age 10–14\n(deaths per 1,000 children aged 10 years)",
-                           "10q10"  = "Mortality rate age 10–19\n(deaths per 1,000 adolescents \naged 10 years)",
                            "5q15"   = "Mortality rate age 15–19\n(deaths per 1,000 children aged 15 years)",
+                           "5q20"   = "Mortality rate age 20–24\n(deaths per 1,000 children aged 20 years)",
+                           "10q10"  = "Mortality rate age 10–19\n(deaths per 1,000 adolescents \naged 10 years)",
                            "Under.five.deaths" = "Number of under-five deaths (in thousands)",
                            "Neonatal.deaths"   = "Number of neonatal deaths (in thousands)",
                            "SBR"    = "Stillbirth rate\n (stillbirths per 1,000 total births)"
@@ -117,8 +118,8 @@ cst <- st_as_sf(cst)
 # Read in the data ----------------------------------------------------------
 
 # load estimates
-dir_CME_est <- file.path(USERPROFILE, "Dropbox/UNICEF Work/Data and charts for websites/Files 2024/CME/Estimates/")
-dtc <- fread(file.path(dir_CME_est, "UNIGME2024_Country_Rates_&_Deaths.csv"))
+dir_CME_est <- file.path(USERPROFILE, "Dropbox/UNICEF Work/Data and charts for websites/Files 2025/CME/Estimates/")
+dtc <- fread(file.path(dir_CME_est, "UNIGME2025_Country_Rates_&_Deaths.csv"))
 dtc <- dtc[Year== YEAR_TO_PLOT & Sex=="Total"]
 
 dtc[, paste(range(round(Median)), collapse = "-"), by = Shortind]
@@ -178,10 +179,12 @@ iso.subset.c <- isos
 #   - Aksai Chin region gets striped pattern (China/Kashmir dispute)
 #
 # ==============================================================================
+
 make.world.map <- function(
     world.robin = world.robin.sf,
     ind0,
     ind_bubble = NULL, 
+    bubble_breaks_labels = c("200", "400", "600"), # labels for bubble legend
     iso.subset.c = NULL, # if NULL, plot world, otherwise, plot selected countries
     region.name  = "selected region", # a name used in filename for regional map
     plot.coastlines = FALSE, # do we want to show coastlines to see all small islands --- slow, set as FALSE, 
@@ -226,9 +229,9 @@ make.world.map <- function(
   l2 <- shift(l1, 1)
   legend.labels <- paste(l1, "to", l2)
   legend.labels[1] <- paste0(">", l1[1])
-  legend.labels[NumOfCategories] <- paste0("≤", l1[length(l1)])
+  legend.labels[NumOfCategories] <- paste0("\u2264", l1[length(l1)])  # \u2264 is Unicode for ≤
   legend.labels[NumOfCategories+1] <- "No data"
-  legend.title <- inds_rate_label_unit[[ind0]]
+  legend.title <- paste0(inds_rate_label_unit[[ind0]], ", ", floor(YEAR_TO_PLOT))
   
   
   
@@ -263,8 +266,19 @@ make.world.map <- function(
       head(20)
     
     # Join with world.robin to get geometries and calculate centroids
+    # First, union all polygons for each country to get single geometry per country
+    # Group ONLY by M49COLOR to merge disputed territories with their parent countries
     bubble_sf <- world.robin %>%
       inner_join(top20, by = "M49COLOR") %>%
+      group_by(M49COLOR, bubble_value, Indicator) %>%
+      summarise(
+        # Take the first non-XXX ISO3_CODE (parent country code)
+        ISO3_CODE = first(ISO3_CODE[ISO3_CODE != "XXX"], default = first(ISO3_CODE)),
+        # Take the first non-disputed territory name
+        TERR_NAME = first(TERR_NAME[ISO3_CODE != "XXX"], default = first(TERR_NAME)),
+        geometry = st_union(geometry), 
+        .groups = "drop"
+      ) %>%
       mutate(centroid = st_centroid(geometry))
     
     # Extract centroid coordinates
@@ -272,11 +286,14 @@ make.world.map <- function(
     bubble_sf$lon <- bubble_coords[, "X"]
     bubble_sf$lat <- bubble_coords[, "Y"]
     
-    # Prepare bubble data for plotting
+    # Prepare bubble data for plotting - should now have exactly 20 rows
     bubble_data <- bubble_sf %>%
       st_drop_geometry() %>%
       select(ISO3_CODE, TERR_NAME, bubble_value, lon, lat, Indicator) %>%
       filter(!is.na(bubble_value))
+    
+    # Report number of bubbles to be plotted
+    message("Number of bubbles to be plotted: ", nrow(bubble_data))
   }
   
   colors <- brewer.pal(NumOfCategories, color.palette) # (requires RColorBrewer package)
@@ -418,10 +435,14 @@ make.world.map <- function(
     if(!is.null(ind_bubble) && !is.null(bubble_data) && nrow(bubble_data) > 0) {
       # Create dynamic bubble legend title using indicator name from data
       indicator_name <- bubble_data$Indicator[1]
-      bubble_legend_title <- paste0(indicator_name, "\n(thousands), 2023")
+      bubble_legend_title <- paste0(indicator_name, "\n(thousands), ", floor(YEAR_TO_PLOT))
       
-      # Use fixed breaks for bubble legend: 200, 400, 600 thousand
-      bubble_breaks <- c(2E5, 4E5, 6E5)
+      # Convert label strings to numeric breaks (in thousands)
+      bubble_breaks <- as.numeric(bubble_breaks_labels) * 1000
+      
+      # Use a fixed upper limit based on the highest break to ensure consistent sizing across charts
+      # This makes bubble sizes comparable across different maps
+      upper_limit <- max(bubble_breaks)
       
       # Add bubbles to the map
       gg <- gg + 
@@ -436,8 +457,8 @@ make.world.map <- function(
           name = bubble_legend_title,
           range = c(2, 15),
           breaks = bubble_breaks,
-          labels = c("200", "400", "600"),
-          limits = c(0, max(bubble_data$bubble_value, na.rm = TRUE))
+          labels = bubble_breaks_labels,
+          limits = c(0, upper_limit)
         ) +
         guides(
           fill = guide_legend(order = 1, title = legend.title),
@@ -517,17 +538,18 @@ make.world.map <- function(
   
   if(save.pdf.also){
   ggsave(plot = gg_group, filename = filename_save_pdf, 
-         height = height0, width = width0, dpi = 600)
+         height = height0, width = width0, dpi = 300,
+         device = cairo_pdf)  # Use Cairo PDF for proper Unicode rendering
     message("pdf map saved to ", filename_save_pdf)
   }
 }
 
-# option 1. world mapbubble_data
-make.world.map(ind0 = "U5MR", save.pdf.also = TRUE)
+# option 1. world map 
+# make.world.map(ind0 = "U5MR", save.pdf.also = TRUE)
 
 # add bubble of deaths 
-make.world.map(ind0 = "U5MR", ind_bubble = "Under.five.deaths")
-make.world.map(ind0 = "NMR", ind_bubble = "Neonatal.deaths")
+make.world.map(ind0 = "U5MR", ind_bubble = "Under.five.deaths", save.pdf.also = TRUE, bubble_breaks_labels = c("200", "400", "600"))
+make.world.map(ind0 = "NMR", ind_bubble = "Neonatal.deaths", save.pdf.also = TRUE, bubble_breaks_labels = c("200", "400", "600"))
 
 # run world maps for all indicators
 # invisible(lapply(inds, make.world.map))

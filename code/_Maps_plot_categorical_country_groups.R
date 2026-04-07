@@ -55,6 +55,7 @@ unique(dt_ava[,.(data_ava, color)])
 #   2: survey_VR #FFC20E
 #   3:        VR #80BD41
 
+
 legend_labels <- c(
   "Survey data only" = "#F26A21",
   "Survey and VR data" = "#FFC20E",

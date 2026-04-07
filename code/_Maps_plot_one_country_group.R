@@ -41,7 +41,9 @@ output.dir.fig <- file.path(work.dir, "fig") # location to save the map
 # loading data 
 source(file.path(USERPROFILE, "Dropbox/UNICEF Work/profile.R"))
 source(file.path(dir_SP, "IGME report/2025/Code_for_figures/_basic_setting_for_plot.R"))
-dir_fig_infographic <- file.path(work_dir, "Figures/_infographic")   # figure for the report
+
+dir_report <- file.path(dir_SP, "IGME report/2025")
+dir_fig_infographic <- file.path(dir_report, "Figures/_infographic")   # figure for the report
 
 dir_input <- file.path(dir_IGME, "input")
 dc <- fread(file.path(dir_IGME, "2025 Round Estimation/Code/input/country.info.CME.csv"))
@@ -167,8 +169,8 @@ plot.selected.countries <- function(
   filename0 <- file.path(output_dir, paste0(ifelse(is.null(filename), length(isos_selected), filename), "_countries"))
   if(is.null(isos_selected))  filename0 <- file.path(output_dir, "UNIGME_map_all_countries")
 
-  ggsave(filename = paste0(filename0, ".png"), height = 4.5, width = 10)
-  ggsave(filename = paste0(filename0, ".pdf"), height = 4.5, width = 10)
+  ggsave(filename = paste0(filename0, ".png"), height = 4.5, width = 10, bg = "white")
+  ggsave(filename = paste0(filename0, ".pdf"), height = 4.5, width = 10, bg = "white")
   message("Saved to ", filename0)
 }
 
@@ -207,12 +209,12 @@ for (r in c("Fragile and Conflict-affected Situation", "non-FCS")){
 
 # SDG target 
 
-dt_target <- fread("C:/Users/yanliu/Dropbox/UNICEF Work/Data Requests/UNICEF PD Health/UN IGME 2025 Countries Obs.Req.ARR and Status_long.csv")
+dt_target <- fread("C:/Users/yanliu/Dropbox/UNICEF Work/Data Requests/UNICEF PD Health/UN IGME 2025/UN IGME 2025 Countries Obs.Req.ARR and Status_long.csv")
 dt_target[, table(Shortind, value)]
 # Shortind Acceleration Needed Achieved On Track
-# MR1t59                  49      140       11
-# NMR                     65      125       10
-# U5MR                    60      133        7
+# MR1t59                  51      141        8
+# NMR                     66      126        8
+# U5MR                    60      134        6
 
 iso_miss_U5MR <- dt_target[Shortind == "U5MR" & value == "Acceleration Needed", ISO3Code]
 iso_miss_NMR  <- dt_target[Shortind == "NMR" & value == "Acceleration Needed", ISO3Code]

@@ -11,17 +11,45 @@ make.world.map <- function(
     my_category_labels = NULL, # map label from top to bottom 
     my_category_break = NULL,
     my_color_palette = NULL, # lightest hues first, self supply palette, overwrite the default match 
-    use_qualitative_palette = FALSE # option to use qualitative palette
+    use_qualitative_palette = FALSE, # option to use qualitative palette
+    # Color and styling configuration (will use global environment if not specified)
+    NoDataColor = if(exists("NoDataColor", envir = parent.frame())) get("NoDataColor", envir = parent.frame()) else "darkgray",
+    boundary.color = if(exists("boundary.color", envir = parent.frame())) get("boundary.color", envir = parent.frame()) else "white",
+    background.color = if(exists("background.color", envir = parent.frame())) get("background.color", envir = parent.frame()) else "white",
+    coastline.color = if(exists("coastline.color", envir = parent.frame())) get("coastline.color", envir = parent.frame()) else "grey",
+    plot.coastlines = if(exists("plot.coastlines", envir = parent.frame())) get("plot.coastlines", envir = parent.frame()) else FALSE,
+    # Spatial data objects (will use global environment if not specified)
+    dtc = if(exists("dtc", envir = parent.frame())) get("dtc", envir = parent.frame()) else NULL,
+    bnd = if(exists("bnd", envir = parent.frame())) get("bnd", envir = parent.frame()) else NULL,
+    lks = if(exists("lks", envir = parent.frame())) get("lks", envir = parent.frame()) else NULL,
+    rks = if(exists("rks", envir = parent.frame())) get("rks", envir = parent.frame()) else NULL,
+    cst = if(exists("cst", envir = parent.frame())) get("cst", envir = parent.frame()) else NULL,
+    # Reference data
+    colors_ind = if(exists("colors_ind", envir = parent.frame())) get("colors_ind", envir = parent.frame()) else NULL,
+    inds_rate_label_unit = if(exists("inds_rate_label_unit", envir = parent.frame())) get("inds_rate_label_unit", envir = parent.frame()) else NULL
     ){
+  
+  # Validate required data objects
+  if(is.null(dtc)) stop("dtc data object must be provided or exist in calling environment")
+  if(is.null(bnd)) stop("bnd spatial object must be provided or exist in calling environment")
+  if(is.null(lks)) stop("lks spatial object must be provided or exist in calling environment")
+  if(is.null(rks)) stop("rks spatial object must be provided or exist in calling environment")
+  if(is.null(cst)) stop("cst spatial object must be provided or exist in calling environment")
   
   qualitative_palette <- c("#0058AB", "#1CABE2", "#00833D", "#80BD41", "#6A1E74" ,"#961A49", "#E2231A" ,"#F26A21", "#FFC20E", "#FFF09C")
   
   if(is.null(my_color_palette)){
+    if(is.null(colors_ind)) {
+      stop("colors_ind must be provided or exist in calling environment when my_color_palette is not supplied")
+    }
     stopifnot(ind0 %in% names(colors_ind))
     color.palette <- dplyr::recode(ind0, !!!colors_ind) # sequential color palette is the default 
   } 
   
   if(is.null(my_legend_title)){
+    if(is.null(inds_rate_label_unit)) {
+      stop("inds_rate_label_unit must be provided or exist in calling environment when my_legend_title is not supplied")
+    }
     legend.title <- inds_rate_label_unit[[ind0]]  
   } else {
     legend.title <- my_legend_title
@@ -29,23 +57,24 @@ make.world.map <- function(
   
   # map legend breaks
   if(is.null(my_category_break)){
-  
-  category.breaks <- switch (ind0,
-                             
-                             "SBR"     = c(30, 25, 20, 12, 5),
-                             "NMR"     = c(35, 30, 25, 12, 5),
-                             "MR1t59"  = c(45, 30, 20, 13, 5),
-                             "MR1t11"  = c(45, 35, 25, 15, 5),
-                             "CMR"     = c(45, 35, 25, 15, 5),
-                             "U5MR"    = c(100, 75, 50, 25, 10),
-                             "5q5"     = c(15, 10, 7.5, 5, 2.5),
-                             "5q10"    = c(15, 10, 7.5, 5, 2.5),
-                             "5q15"    = c(15, 10, 7.5, 5, 2.5),
-                             "10q10"   = c(20, 15, 10, 5, 2.5),
-                             "SBPD"    = c(50, 25) # stillbirth percentage decline 
-  )
+    
+    category.breaks <- switch (ind0,
+                               
+                               "SBR"     = c(30, 25, 20, 12, 5),
+                               "NMR"     = c(35, 30, 25, 12, 5),
+                               "MR1t59"  = c(45, 30, 20, 13, 5),
+                               "MR1t11"  = c(45, 35, 25, 15, 5),
+                               "CMR"     = c(45, 35, 25, 15, 5),
+                               "U5MR"    = c(100, 75, 50, 25, 10),
+                               "5q5"     = c(15, 10, 7.5, 5, 2.5),
+                               "5q10"    = c(15, 10, 7.5, 5, 2.5),
+                               "5q15"    = c(15, 10, 7.5, 5, 2.5),
+                               "10q10"   = c(20, 15, 10, 5, 2.5),
+                               "5q20"   = c(25, 20, 15, 10, 5),
+                               "SBPD"    = c(50, 25) # stillbirth percentage decline 
+    )
   } else {
-     category.breaks <- my_category_break
+    category.breaks <- my_category_break
   }
   if(is.null(category.breaks)) stop("category breaks not pre-set in function for this indicator, supply `my_category_break`")
   # Number of categories into which to split data, not including No data
@@ -80,7 +109,7 @@ make.world.map <- function(
   world.robin <- left_join(world.robin, indata, by = "M49COLOR")
   
   # color 
-    if(!is.null(my_color_palette)){
+  if(!is.null(my_color_palette)){
     colors <- my_color_palette
   } else {
     colors <- brewer.pal(NumOfCategories, color.palette) # (requires RColorBrewer package)

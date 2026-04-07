@@ -64,44 +64,7 @@ output.dir.fig <- file.path(work.dir, "fig")     # Output directory for maps
 
 # Load custom mapping functions ===============================================
 source(file.path(work.dir, "R/make.world.map.R"))
-
-# Mortality Indicator Configuration ==========================================
-
-# Color palette mapping for each mortality indicator
-# Uses ColorBrewer palettes optimized for data visualization and accessibility
-colors_ind <- c(
-  "U5MR"    = "Blues",       # Under-five mortality rate
-  "SBR"     = "Blues",       # Stillbirth rate
-  "NMR"     = "Greens",      # Neonatal mortality rate  
-  "MR1t59"  = "OrRd",        # 1-59 months mortality rate
-  "MR1t11"  = "OrRd",        # 1-11 months mortality rate
-  "CMR"     = "OrRd",        # Child mortality rate (1-4 years)
-  "10q10"   = "OrRd",        # Adolescent mortality rate (10-19 years)
-  "5q5"     = "Greens",      # Child mortality rate (5-9 years)
-  "5q5"     = "Greens",      # Duplicate entry - should be reviewed
-  "5q10"    = "Greens",      # Child mortality rate (10-14 years)
-  "5q15"    = "PuBu",        # Adolescent mortality rate (15-19 years)
-  "5q20"    = "PuBu"         # Young adult mortality rate (20-24 years)
-)
-
-# Human-readable labels and units for map legends
-# These appear in the legend titles and are formatted for multi-line display
-inds_rate_label_unit  <- c("U5MR"   = "Under-five mortality rate\n(deaths per 1,000 live births)",  
-                           "NMR"    = "Neonatal mortality rate\n(deaths per 1,000 live births)",
-                           "CMR"    = "Child mortality rate age 1–4\n(deaths per 1,000 children aged 1)",
-                           "MR1t11" = "1–11-months mortality rate\n(deaths per 1,000 children \naged 28 days)",
-                           "MR1t59" = "1–59-months mortality rate\n(deaths per 1,000 children \naged 28 days)",
-                           "5q5"    = "Mortality rate age 5–9\n(deaths per 1,000 children aged 5 years)",
-                           "5q10"   = "Mortality rate age 10–14\n(deaths per 1,000 children aged 10 years)",
-                           "10q10"  = "Mortality rate age 10–19\n(deaths per 1,000 adolescents \naged 10 years)",
-                           "5q15"   = "Mortality rate age 15–19\n(deaths per 1,000 children aged 15 years)",
-                           "Under.five.deaths" = "Number of under-five deaths (in thousands)",
-                           "Neonatal.deaths"   = "Number of neonatal deaths (in thousands)",
-                           "SBR"    = "Stillbirth rate\n (stillbirths per 1,000 total births)"
-)
-
-# Extract indicator codes for processing
-inds <- names(colors_ind)
+source(file.path(USERPROFILE, "Dropbox/UNICEF Work/profile.R"))  # Loads IGME directory path
 
 # Map Styling Configuration ===============================================
 
@@ -114,7 +77,7 @@ coastline.color <- "grey"      # Coastal outlines for small islands
 # Coastline display option
 # Set FALSE for faster rendering; TRUE to show all small islands and details
 plot.coastlines <- FALSE
-
+  
 # Load UN Cartography Shapefiles ==========================================
 
 # Load pre-processed spatial data (Robinson projection applied)
@@ -132,38 +95,35 @@ bnd <- st_as_sf(bnd)
 rks <- st_as_sf(rks)
 cst <- st_as_sf(cst)
 
-# Load Mortality Data ======================================================
-
-# Data preparation note:
-# The commented code below shows how to extract latest estimates from the master file.
-# This has already been done and saved to the input/ directory for convenience.
-#
-# results_country_dir <- file.path(USERPROFILE, "Dropbox/UNICEF Work/Data and charts for websites/Files 2025/CME/Estimates/")
-# dtcCME <- fread(file.path(results_country_dir, "UNIGME2025_Country_Rates.csv"))
-# dtc <- dtcCME[Year == 2024.5 & Sex== "Total"]  # Filter to most recent year, both sexes
-# fwrite(dtc, file.path(work.dir, "input/IGME_2025_rate_estimates.csv"))
-
-# Load IGME mortality rate estimates (year 2024.5, both sexes combined)
-dtc <- fread(file.path(work.dir, "input/IGME_2024_rate_estimates.csv"))
+# Load Data ======================================================
+dt_input <- fread(file.path(dir_IGME, "2025 Round Estimation/Code/input/dataPostAdj_U5MR.csv"))
+dt_input[, Median:= uniqueN(year.adj), by = countrycode.adj]
+dtc <- unique(dt_input[,.(countrycode.adj, Median)])
+setnames(dtc, c("ISO3Code", "Median")) 
 
 # Load country metadata with ISO codes and UN codes for mapping
 dc <- setDT(readRDS(file.path(work.dir, "input/new_cnames.rds")))
 
-# Get UNCode for spatial mapping
+# Merge mortality data with country codes for spatial mapping
 dtc <- merge(dc[,.(ISO3Code, UNCode)], dtc, by.x = "ISO3Code", by.y = "ISO3Code")
+dtc[, Shortind := "crisis"]
 
-# Generate World Maps ======================================================
+NumOfCategories <- 7
+category.breaks <- c(12, 10,  8, 6,  4,  2)
 
-# Create maps for key mortality indicators
-# Output files are automatically saved to fig/ directory
+colors <- RColorBrewer::brewer.pal(NumOfCategories, "OrRd")
+l1 <- category.breaks
+l2 <- shift(l1, 1)
+legend.labels <- paste(l2, "to", l1)
+legend.labels[1] <- paste0(">", l1[1])
+legend.labels[NumOfCategories] <- paste0("≤", l1[length(l1)])
+legend.labels[NumOfCategories+1] <- "No adjustment"
 
-# Primary indicators for IGME reporting:
-make.world.map(ind0 = "U5MR")      # Under-five mortality rate - flagship indicator
-make.world.map(ind0 = "MR1t59")    # 1-59 months mortality rate - complementary measure
 
-# To generate maps for ALL available indicators, uncomment the line below:
-# invisible(lapply(inds, make.world.map))
+make.world.map(ind0 = "crisis",
+               my_legend_title = "Count of crisis country-years",
+               my_category_break = category.breaks,
+               my_category_labels = legend.labels,
+               my_color_palette = colors
+               ) 
 
-# Available indicators for individual mapping:
-# "U5MR", "NMR", "CMR", "MR1t11", "MR1t59", "5q5", "5q10", "10q10", "5q15", "SBR"
-# Example: make.world.map(ind0 = "NMR") for neonatal mortality rate
